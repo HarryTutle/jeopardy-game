@@ -1,0 +1,75 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Apr 15 11:10:23 2021
+
+@author: harry
+"""
+
+import numpy as np
+import pandas as pd
+
+data=pd.read_csv('/home/harry/codacademy/jeopardy_starting/jeopardy_starting/jeopardy.csv')
+
+
+
+data=data.rename(columns={'Show Number': 'Show_number', ' Air Date': 'Air_date', ' Round': 'Round', ' Category': 'Category',
+                         ' Value': 'Value', ' Question': 'Question', ' Answer': 'Answer' })
+
+
+data['Value']=data['Value'].apply(lambda x:float(x.strip('$').replace(',','')) if x!='None' else x)
+
+def game(data):
+    account=0
+    question_list=len(data)
+    for question in range(question_list):
+        selector=np.random.randint(0, question_list-1)
+        question=data.loc[selector, 'Question']
+        answer=data.loc[selector, 'Answer']
+        
+        print(question)
+        x=input()
+        
+        
+        
+        if answer.upper()==x.upper():
+            account+=data.loc[selector, 'Value']
+            print(f"Good!You have now {account} dollars.Continue? yes/no.")
+            counter=0
+            x=input()
+            if x=='no':
+                print('bye!')
+            else:
+                continue
+                
+        else:
+            print(f"False. The answer was {answer} You still have {account} dollars.Continue? yes/no.")
+            x=input()
+            if x=='no':
+                print('bye!')
+                break
+            else:
+                continue
+        
+    
+    
+        
+        
+            
+        
+            
+            
+            
+    
+        
+            
+                 
+             
+        
+               
+                   
+                
+            
+    
+        
+game(data)
